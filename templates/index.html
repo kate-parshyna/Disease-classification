@@ -5,11 +5,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title></title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='src/style.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat');
+        body{
+            background-color: #e4e4e4;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .container{
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .uploading-form{
+            position:relative;
+            width: 600px;
+            height: auto;
+            margin-left: calc(25% - 300px);
+            margin-top: 100px;
+            padding: 20px;
+            -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.29);
+            -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.29);
+            box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.29);
+            background-color: rgb(243, 243, 243);
+            float:left;
+        }
+
+        .add-button{
+            width: 200px !important;
+            height: 50px !important;
+            margin: 20px calc(50% - 100px) ;
+            background-color: #fff;
+            text-align:center;
+            line-height: 50px;
+            font-size: 15px;
+            color: #b5850e;
+            -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.29);
+            -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.29);
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.29);
+            cursor: pointer;
+        }
+
+        .confirm-button{
+            position:relative;
+            width: 200px !important;
+            height: 50px !important;
+            margin: 20px calc(50% - 100px) ;
+            background-color: #fff;
+            text-align:center;
+            line-height: 50px;
+            font-size: 15px;
+            color: #b5850e;
+            -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.29);
+            -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.29);
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.29);
+            cursor: pointer;
+            float:left;
+        }
+
+        table{
+            width: 100%;
+            background-color: #fff;
+            text-align:center;
+            line-height: 50px;
+            font-size: 15px;
+            color: #b5850e;
+            -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.129);
+            -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.29);
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.29);
+        }
+
+        td{
+            border: 1px solid #ececec;
+        }
+
+        thead{
+            -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.129);
+            -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.29);
+            box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.29);
+
+        }
+
+        thead td{
+                border: 0px solid #ececec;
+        }
+
+        thead td:hover{
+                background-color:#fff;
+        }
+
+        .image-wrapper{
+            width: 100%;
+            background-color: #e7e7e7;
+            border-radius: 15px;
+            position:relative;
+            margin-top: 20px;
+        }
+
+        img{
+            width: calc(100%);
+            padding: 0px;
+        }
     </style>
 </head>
 
@@ -54,8 +153,8 @@
                                     Value
                                 </td>
                             </thead>
-                            <tbody v-for="(value, key) in data">
-                                <tr>
+                            <tbody >
+                                <tr v-for="(value, key) in data">
                                     <td>{{ key }}</td>
                                     <td>{{ value }}</td>
                                 </tr>
