@@ -4,6 +4,7 @@ import os
 import json
 import requests
 import tempfile
+import operator
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
@@ -63,7 +64,7 @@ def receive_message():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         result = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        # result = {'label1': 3, 'label2': 4}
+        result = dict(sorted(result.items(), key=lambda kv: kv[1]))
 
         return jsonify(result)
 
