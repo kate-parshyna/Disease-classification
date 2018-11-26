@@ -8,6 +8,7 @@ import tempfile
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
+from flask import render_template
 
 from label_image import get_result
 
@@ -24,6 +25,10 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route("/detector", methods=['POST'])
 @cross_origin()
@@ -58,11 +63,10 @@ def receive_message():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         result = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        # result = {'label1': 3, 'label2': 4}
 
         return jsonify(result)
 
 
 if __name__ == "__main__":
-    app.run(threaded=True, host='0.0.0.0')
+    app.run(threaded=True)

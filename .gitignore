@@ -1,0 +1,12 @@
+__pycache__/
+bottleneck/
+data/
+images/
+retrain_logs/
+test/
+Vue-text-upload/
+.idea/
+1.jpg
+2.jpg
+DetectDesease.zip
+desease_detector.pem

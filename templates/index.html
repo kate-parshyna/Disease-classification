@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/style.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+        crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat');
+    </style>
+</head>
+
+<body>
+    <div id="upload-form">
+        <div class="container">
+            <div class="uploading-form">
+                <div class="form-wrapper">
+                    <input type="file" id="file" accept="image/jpeg,image/png" ref="file" v-on:change="handleFileUpload(), onFileChange()"
+                        style="display:none;" />
+                    <label for="file">
+                        <div class="add-button">
+                            <i class="fas fa-images"></i> Choose image
+                        </div>
+                    </label>
+                </div>
+
+                <div v-if="url">
+                        <img :src="url" />
+
+                        <div class="confirm-button" v-on:click="submitFile(); loading = true;"><i class="fas fa-check"></i>
+                            Submit</div>
+        
+
+                </div>
+            </div>
+
+            <div class="uploading-form" style="padding: 20px;">
+                <h2 style="color:#b5850e; margin-top: 0px;">Results</h2>
+                <div v-if="!result" style="padding: 100px 0px; text-align:center;">
+                    Upload image first
+                </div>
+                <div v-if="result">
+
+                    <div>
+                        <table cellspacing="0">
+                            <thead>
+                                <td>
+                                    Key
+                                </td>
+                                <td>
+                                    Value
+                                </td>
+                            </thead>
+                            <tbody v-for="(value, key) in data">
+                                <tr>
+                                    <td>{{ key }}</td>
+                                    <td>{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <script src='https://unpkg.com/vue/dist/vue.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1 "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+    <script>
+        new Vue({
+            el: '#upload-form',
+            /*
+                 Defines the data used by the component
+               */
+            data() {
+                return {
+                    file: '',
+                    url: null,
+                    data: [],
+                    errors: [],
+                    result: null,
+                    loading: null,
+                    orderedData:[]
+                }
+            },
+            methods: {
+
+                /*
+                  Submits the file to the server
+                */
+                onFileChange(e) {
+                    this.url = URL.createObjectURL(this.file);
+                    console.log(this.url)
+                },
+                submitFile() {
+                    /*
+                            Initialize the form data
+                        */
+                    let formData = new FormData();
+
+                    /*
+                        Add the form data we need to submit
+                    */
+                    formData.append('file', this.file);
+
+                    /*
+                      Make the request to the POST /single-file URL
+                    */
+                    axios.post('http://52.87.218.32:5000/detector',
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    ).then(response => {
+                        this.data = response.data;
+                        this.result = 1;
+                        console.log(JSON.stringify(this.data) + 'SUCCESS!!');
+                        
+                    })
+                        .catch(e => {
+                            this.errors.push(e)
+                            console.log(this.errors);
+                        });
+                },
+
+                /*
+                  Handles a change on the file upload
+                */
+                handleFileUpload() {
+                    this.file = this.$refs.file.files[0];
+                }
+            }
+
+
+        })
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>
