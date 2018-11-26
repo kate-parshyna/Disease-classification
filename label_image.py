@@ -100,8 +100,8 @@ def get_result(path):
     result.update({labels[i]: float('{:.3f}'.format(results[i]))})
   return result
 
-model_file = 'graphs/output_graph.pb'
-label_file = 'graphs/output_labels.txt'
+model_file = 'output_graph.pb'
+label_file = 'output_labels.txt'
 input_height = 299
 input_width = 299
 input_mean = 0
