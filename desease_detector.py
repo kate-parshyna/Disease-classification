@@ -58,6 +58,9 @@ def receive_message():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         result = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         return jsonify(result)
 
 
