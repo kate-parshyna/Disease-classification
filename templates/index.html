@@ -155,8 +155,8 @@
                             </thead>
                             <tbody >
                                 <tr v-for="(value, key) in data">
-                                    <td>{{ key }}</td>
-                                    <td>{{ value }}</td>
+                                    <td>{% raw %}{{ key }}{% endraw %}</td>
+                                    <td>{% raw %}{{ value }}{% endraw %}</td>
                                 </tr>
                             </tbody>
                         </table>
