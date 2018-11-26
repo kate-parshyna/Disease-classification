@@ -66,6 +66,8 @@ def receive_message():
         result = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         result = dict(sorted(result.items(), key=lambda kv: kv[1]))
 
+        print(result)
+
         return jsonify(result)
 
 
