@@ -92,7 +92,7 @@ def get_result(path):
     })
   results = np.squeeze(results)
 
-  top_k = results.argsort()[0:][:4:-1]
+  top_k = results.argsort()[0:][::-1]
   labels = load_labels(label_file)
   result = {}
   for i in top_k:
