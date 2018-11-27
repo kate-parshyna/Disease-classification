@@ -64,6 +64,7 @@ def receive_message():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         result = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         result = dict(sorted(result.items(), key=lambda kv: kv[1]))
 
         print(result)

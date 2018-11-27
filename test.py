@@ -1,13 +1,8 @@
 import requests
 
 
-files = {
-    'file': open('1.jpg', 'rb')
-}
+t = {'normal': 0.319, 'psoriasis': 0.029, 'pruritus nodular': 0.019, 'couperose': 0.002, 'ineffective': 0.349, 'lichen': 0.021, 'herpes': 0.257, 'eczema': 0.004}
 
-r = requests.post(
-    'http://127.0.0.1:5000/detector',
-    files=files
-)
+result = dict(sorted(t.items(), key=lambda kv: kv[1]))
 
-print(r.status_code, r.text)
+print(result)
