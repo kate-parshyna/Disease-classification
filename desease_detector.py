@@ -68,7 +68,7 @@ def receive_message():
         print(type(response), response)
 
         result = []
-        for key in response.keys:
+        for key in response.keys():
             result.append({
                 'name': key,
                 'value': response['key']
