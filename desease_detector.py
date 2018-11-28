@@ -63,9 +63,14 @@ def receive_message():
                 filename = secure_filename(file.filename.lower())
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        result = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        response = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        result = dict(sorted(result.items(), key=lambda kv: kv[1]))
+        result = []
+        for key in response.keys:
+            result.append({
+                'name': key,
+                'value': response['key']
+            })
 
         print(result)
 
