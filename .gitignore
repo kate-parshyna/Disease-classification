@@ -1,6 +1,7 @@
 __pycache__/
 bottleneck/
 data/
+train/
 images/
 retrain_logs/
 test/
@@ -9,6 +10,7 @@ Vue-text-upload/
 Тестирование 27.11.18/
 1.jpg
 2.jpg
+rotade.py
 DetectDesease.zip
 desease_detector.pem
 detector.pem
