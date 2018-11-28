@@ -65,6 +65,8 @@ def receive_message():
 
         response = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
+        print(type(response), response)
+
         result = []
         for key in response.keys:
             result.append({
