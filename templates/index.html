@@ -109,146 +109,199 @@
             width: calc(100%);
             padding: 0px;
         }
+        #preloader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            background: #333 url('http://samherbert.net/svg-loaders/svg-loaders/spinning-circles.svg') no-repeat center center;
+            }
+
+            .preload {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            background: rgba(0,0,0,0.5) url('http://samherbert.net/svg-loaders/svg-loaders/spinning-circles.svg') no-repeat center center;
+            }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(window).load(function () {
+                setTimeout(function () {
+                    $('#preloader').fadeOut('slow', function () { });
+                }, 1000);
+
+            });
+        });
+    </script>
 </head>
 
 <body>
     <div id="upload-form">
-        <div class="container">
-            <div class="uploading-form">
-                <div class="form-wrapper">
-                    <input type="file" id="file" accept="image/jpeg,image/png" ref="file" v-on:change="handleFileUpload(), onFileChange()"
-                        style="display:none;" />
-                    <label for="file">
-                        <div class="add-button">
-                            <i class="fas fa-images"></i> Choose image
-                        </div>
-                    </label>
-                </div>
+        <div id="app">
+            <div id="preloader">
 
-                <div v-if="url">
+            </div>
+            <div class="preload" v-show="preloading"></div>
+
+            <div class="container">
+                <div class="uploading-form">
+                    <div class="form-wrapper">
+                        <input type="file" id="file" accept="image/jpeg,image/png" ref="file" v-on:change="handleFileUpload(), onFileChange()"
+                            style="display:none;" />
+                        <label for="file">
+                            <div class="add-button">
+                                <i class="fas fa-images"></i> Choose image
+                            </div>
+                        </label>
+                    </div>
+
+                    <div v-if="url">
                         <img :src="url" />
 
-                        <div class="confirm-button" v-on:click="submitFile(); loading = true;"><i class="fas fa-check"></i>
+                        <div class="confirm-button" v-on:click="submitFile(); loading = true;preloading = !preloading"><i
+                                class="fas fa-check"></i>
                             Submit</div>
-        
 
-                </div>
-            </div>
-
-            <div class="uploading-form" style="padding: 20px;">
-                <h2 style="color:#b5850e; margin-top: 0px;">Results</h2>
-                <div v-if="!result" style="padding: 100px 0px; text-align:center;">
-                    Upload image first
-                </div>
-                <div v-if="result">
-
-                    <div>
-                        <table cellspacing="0">
-                            <thead>
-                                <td>
-                                    Key
-                                </td>
-                                <td>
-                                    Value
-                                </td>
-                            </thead>
-                            <tbody >
-                                <tr v-for="(value, key) in data">
-                                    <td>{% raw %}{{ key }}{% endraw %}</td>
-                                    <td>{% raw %}{{ value }}{% endraw %}</td>
-                                </tr>
-                            </tbody>
-                        </table>
 
                     </div>
                 </div>
 
+                <div class="uploading-form" style="padding: 20px;">
+                    <h2 style="color:#b5850e; margin-top: 0px;">Results</h2>
+                    <div v-if="!result" style="padding: 100px 0px; text-align:center;">
+                        Upload image first
+                    </div>
+                    <div v-if="result">
+
+                        <div>
+                            <table cellspacing="0">
+                                <thead>
+                                    <td>
+                                        Key
+                                    </td>
+                                    <td>
+                                        Value
+                                    </td>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="data in sortedArray">
+                                        <td>{% raw %}{{data.name}}{% endraw %}</td>
+                                        <td>{% raw %}{{data.value}}{% endraw %}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
-
         </div>
-    </div>
 
 
 
 
-    <script src='https://unpkg.com/vue/dist/vue.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1 "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+        <script src='https://unpkg.com/vue/dist/vue.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1 "></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 
-    <script>
-        new Vue({
-            el: '#upload-form',
-            /*
-                 Defines the data used by the component
-               */
-            data() {
-                return {
-                    file: '',
-                    url: null,
-                    data: [],
-                    errors: [],
-                    result: null,
-                    loading: null,
-                    orderedData:[]
-                }
-            },
-            methods: {
-
+        <script>
+            new Vue({
+                el: '#upload-form',
                 /*
-                  Submits the file to the server
-                */
-                onFileChange(e) {
-                    this.url = URL.createObjectURL(this.file);
-                    console.log(this.url)
+                     Defines the data used by the component
+                   */
+                data() {
+                    return {
+                        file: '',
+                        url: null,
+                        data: [],
+                        errors: [],
+                        result: null,
+                        loading: null,
+                        orderedData: [],
+                        preloading: false
+                    }
                 },
-                submitFile() {
-                    /*
-                            Initialize the form data
-                        */
-                    let formData = new FormData();
-
-                    /*
-                        Add the form data we need to submit
-                    */
-                    formData.append('file', this.file);
-
-                    /*
-                      Make the request to the POST /single-file URL
-                    */
-                    axios.post('http://18.206.201.180:5000/detector',
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
+                computed: {
+                    sortedArray: function () {
+                        function compare(a, b) {
+                            if (a.value < b.value)
+                                return 1;
+                            if (a.value > b.value)
+                                return -1;
+                            return 0;
                         }
-                    ).then(response => {
-                        this.data = response.data;
-                        this.result = 1;
-                        console.log(JSON.stringify(this.data) + 'SUCCESS!!');
-                        
-                    })
-                        .catch(e => {
-                            this.errors.push(e)
-                            console.log(this.errors);
-                        });
+
+                        return this.data.sort(compare);
+                    }
                 },
+                methods: {
 
-                /*
-                  Handles a change on the file upload
-                */
-                handleFileUpload() {
-                    this.file = this.$refs.file.files[0];
+                    /*
+                      Submits the file to the server
+                    */
+                    onFileChange(e) {
+                        this.url = URL.createObjectURL(this.file);
+                        console.log(this.url)
+                    },
+                    submitFile() {
+                        /*
+                                Initialize the form data
+                            */
+                        let formData = new FormData();
+
+                        /*
+                            Add the form data we need to submit
+                        */
+                        formData.append('file', this.file);
+
+                        /*
+                          Make the request to the POST /single-file URL
+                        */
+                        axios.post('http://18.206.201.180:5000/detector',
+                            formData,
+                            {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }
+                        ).then(response => {
+                            this.data = response.data;
+                            this.result = 1;
+                            console.log(JSON.stringify(this.data) + 'SUCCESS!!');
+                            this.preloading = !this.preloading;
+                        })
+                            .catch(e => {
+                                this.errors.push(e)
+                                console.log(this.errors);
+                            });
+                    },
+
+                    /*
+                      Handles a change on the file upload
+                    */
+                    handleFileUpload() {
+                        this.file = this.$refs.file.files[0];
+                    }
                 }
-            }
 
 
-        })
+            })
 
 
 
-    </script>
+        </script>
 
 
 
