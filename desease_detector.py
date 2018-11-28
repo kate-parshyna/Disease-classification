@@ -63,14 +63,13 @@ def receive_message():
                 filename = secure_filename(file.filename.lower())
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        response = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        deseases = get_result(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         result = []
-        for key in response.keys():
-            print(key)
+        for key in deseases.keys():
             result.append({
                 'name': key,
-                'value': response.get('key')
+                'value': deseases.get('key')
             })
 
         print(result)
