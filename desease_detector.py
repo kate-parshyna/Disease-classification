@@ -69,7 +69,7 @@ def receive_message():
         for key in deseases.keys():
             result.append({
                 'name': key,
-                'value': deseases.get('key')
+                'value': deseases.get(key)
             })
 
         print(result)
