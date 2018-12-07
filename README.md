@@ -34,7 +34,7 @@ sudo pip3 install Flask-Cors==3.0.7
 
 ### Training
 
-For classification used Tensorflow inception v3 model. At the entrance is a folder with dataset.
+For classification used Tensorflow inception v3 model. Before starting the training you need to create a data structure.
 
 Folder structure:
 ````
@@ -60,7 +60,7 @@ dataset/
     pruritus nodular/
     psoriasis/
 ````
-This command is used for training:
+Use this command for retraining:
 
 ````
 python3 retrain.py --image_dir path/to/folder/with/dataset/ 
@@ -69,11 +69,11 @@ python3 retrain.py --image_dir path/to/folder/with/dataset/
 ### Testing
 In order to start testing, you need to start the server where the testing will be conducted.
 
-The server is started by the following command:
+The server will be started by the following command:
 
 ````
 python3 desease_detector.py 
 ````
-After the server is running, you need to go to the server address, where you can see the interface for testing.
+After the server is running, you need to go to the server address, where you can see the interface for testing. This is 127.0.0.1:5000.
 
 
