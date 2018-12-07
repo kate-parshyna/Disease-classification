@@ -1,7 +1,7 @@
 # Disease-classification
-## Description
-This program classifies skin diseases.
-    Known diseases:
+## Overview
+This program classifies skin diseases. This program use TensorFlow Hub to ingest pre-trained pieces of models, or modules as they are called. For starters, we will use the image feature extraction module with the Inception V3 architecture trained on ImageNet
+    The model classifies the following diseases:
     
     -couperose;
     -eczema;
@@ -11,8 +11,8 @@ This program classifies skin diseases.
     -normal;
     -pruritus nodular;
     -psoriasis.
-## Setup
-To run the project you need to set the requirements.
+## Installation
+Before starting the classification, it is necessary to install the modules that are used in this program.
 
 Python instatall:    
 ````
@@ -66,17 +66,14 @@ This command is used for training:
 python3 retrain.py --image_dir path/to/folder/with/dataset/ 
 ````
 
-#### Example
-````
-python3 retrain.py --image_dir dataset/
-````
-### Server start 
-For training, you need start the server:
+### Testing
+In order to start testing, you need to start the server where the testing will be conducted.
+
+The server is started by the following command:
 
 ````
 python3 desease_detector.py 
 ````
-### Testing
 After the server is running, you need to go to the server address, where you can see the interface for testing.
 
 
