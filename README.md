@@ -1,6 +1,8 @@
-#Description
+# Disease-classification
+## Description
 This program classifies skin diseases.
-    -Known diseases:
+    Known diseases:
+    
     -couperose;
     -eczema;
     -herpes;
@@ -9,16 +11,16 @@ This program classifies skin diseases.
     -normal;
     -pruritus nodular;
     -psoriasis.
-#Setup
+## Setup
 To run the project you need to set the requirements.
 
-python instatall:    
+Python instatall:    
 ````
 sudo apt-get update
 
 sudo apt-get install python3.6
 ````
-requirements install:
+Requirements install:
 ````
 sudo pip3 install tensorflow==1.12.0
 
@@ -28,9 +30,10 @@ sudo pip3 install Flask==1.0.2
 
 sudo pip3 install Flask-Cors==3.0.7
 ````
+## Usage
 
+### Training
 
-#Training
 For classification used Tensorflow inception v3 model. At the entrance is a folder with dataset.
 
 Folder structure:
@@ -57,22 +60,23 @@ dataset/
     pruritus nodular/
     psoriasis/
 ````
-##Usage
+This command is used for training:
+
 ````
 python3 retrain.py --image_dir path/to/folder/with/dataset/ 
 ````
 
-##Example
+#### Example
 ````
-python3 retrain.py --image_dir train/
+python3 retrain.py --image_dir dataset/
 ````
-#Server start 
-For training, you must start the server:
+### Server start 
+For training, you need start the server:
 
 ````
 python3 desease_detector.py 
 ````
-#Testing
+### Testing
 After the server is running, you need to go to the server address, where you can see the interface for testing.
 
 
